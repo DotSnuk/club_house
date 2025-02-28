@@ -14,7 +14,8 @@ export default function RegisterForm() {
 
   async function submitUser(e) {
     e.preventDefault();
-    if (password === '' || password !== confirmPassword) return;
+    // uncomment next line when you're done
+    // if (password === '' || password !== confirmPassword) return;
     const data = { firstname, lastname, email, password };
     const response = await postCreateUser(data);
     console.log(response);
@@ -75,7 +76,7 @@ export default function RegisterForm() {
       <div>
         <label htmlFor='confirmPassword'>Confirm password: </label>
         <input
-          type='text'
+          type='password'
           name='confirmPassword'
           id='confirmPassword'
           onChange={e => setConfirmPassword(e.target.value)}
