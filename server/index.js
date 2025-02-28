@@ -15,9 +15,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('hello');
-});
+app.use('/', router);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`app listening in on port ${PORT}`));
