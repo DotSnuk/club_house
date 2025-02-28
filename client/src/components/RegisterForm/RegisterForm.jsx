@@ -63,6 +63,7 @@ export default function RegisterForm() {
           id='email'
           onChange={e => setEmail(e.target.value)}
         />
+        {ErrorCheck('email')}
       </div>
       <div>
         <label htmlFor='password'>Password: </label>

@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator');
 
 const notEmpty = `can't be empty`;
 const alphaError = 'must only contain letters';
+const emailError = 'must be valid email adress';
 
 const validateName = [
   body('firstname')
@@ -18,8 +19,16 @@ const validateName = [
     .withMessage(alphaError),
 ];
 
+const validateEmail = body('email')
+  .trim()
+  .notEmpty()
+  .withMessage(notEmpty)
+  .isEmail()
+  .withMessage(emailError);
+
 const createUser = [
   validateName,
+  validateEmail,
   (req, res) => {
     const result = validationResult(req);
 
