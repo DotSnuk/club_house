@@ -16,7 +16,7 @@ export default function RegisterForm() {
     e.preventDefault();
     // uncomment next line when you're done
     // if (password === '' || password !== confirmPassword) return;
-    const data = { firstname, lastname, email, password };
+    const data = { firstname, lastname, email, password, confirmPassword };
     const response = await postCreateUser(data);
     console.log(response);
     if (!response.success) return handleError(response.errors);
@@ -73,6 +73,7 @@ export default function RegisterForm() {
           id='password'
           onChange={e => setPassword(e.target.value)}
         />
+        {ErrorCheck('password')}
       </div>
       <div>
         <label htmlFor='confirmPassword'>Confirm password: </label>
@@ -82,6 +83,7 @@ export default function RegisterForm() {
           id='confirmPassword'
           onChange={e => setConfirmPassword(e.target.value)}
         />
+        {ErrorCheck('confirmPassword')}
       </div>
 
       {/* <label htmlFor='username'>Username: </label>

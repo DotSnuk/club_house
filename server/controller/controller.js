@@ -1,40 +1,27 @@
 const { body, validationResult } = require('express-validator');
-
-const notEmpty = `can't be empty`;
-const alphaError = 'must only contain letters';
-const emailError = 'must be valid email adress';
-
-const validateName = [
-  body('firstname')
-    .trim()
-    .notEmpty()
-    .withMessage(notEmpty)
-    .isAlpha()
-    .withMessage(alphaError),
-  body('lastname')
-    .trim()
-    .notEmpty()
-    .withMessage(notEmpty)
-    .isAlpha()
-    .withMessage(alphaError),
-];
-
-const validateEmail = body('email')
-  .trim()
-  .notEmpty()
-  .withMessage(notEmpty)
-  .isEmail()
-  .withMessage(emailError);
+const db = require('../db/queries');
+const validator = require('./validatior');
 
 const createUser = [
-  validateName,
-  validateEmail,
-  (req, res) => {
+  validator.validateName,
+  validator.validateEmail,
+  validator.validatePassword,
+  validator.validateConfirmPassword,
+  (req, res, next) => {
     const result = validationResult(req);
 
-    if (!result.isEmpty())
+    if (!result.isEmpty()) {
+      console.log(result.validationResult);
       return res.send({ success: false, errors: [...result.errors] });
-    return res.send({ success: true, errors: [] });
+    }
+    next();
+  },
+  async (req, res) => {
+    // add to db
+    const { firstname, lastname, email, password } = req.body;
+    const data = { firstname, lastname, email, password };
+    // const result = await db.createUser(data);
+    console.log('here');
   },
 ];
 
