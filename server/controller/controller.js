@@ -1,6 +1,7 @@
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const db = require('../db/queries');
 const validator = require('./validatior');
+const passwordUtil = require('../utils/password');
 
 const createUser = [
   validator.validateName,
@@ -19,9 +20,17 @@ const createUser = [
   async (req, res) => {
     // add to db
     const { firstname, lastname, email, password } = req.body;
-    const data = { firstname, lastname, email, password };
-    // const result = await db.createUser(data);
-    console.log('here');
+    const passhashAndSalt = await passwordUtil.genPassword(password);
+    console.log(passhashAndSalt);
+    const data = {
+      firstname,
+      lastname,
+      email,
+      passwordhash: passhashAndSalt.passwordhash,
+      salt: passhashAndSalt.salt,
+    };
+    await db.createUser(data);
+    res.send({ success: true });
   },
 ];
 

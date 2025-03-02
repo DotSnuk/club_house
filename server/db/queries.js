@@ -10,11 +10,20 @@ async function doesEmailExist(email) {
     `SELECT email FROM users WHERE email = $1`,
     [email],
   );
-  console.log(rows.length !== 0);
   return rows.length !== 0;
 }
+
+async function createUser(data) {
+  await pool.query(
+    `INSERT INTO users (firstname, lastname, email, passwordhash, salt) VALUES ($1, $2, $3, $4, $5)`,
+    [data.firstname, data.lastname, data.email, data.passwordhash, data.salt],
+  );
+}
+
+async function getPasswordAndSalt(email) {}
 
 module.exports = {
   getAllPosts,
   doesEmailExist,
+  createUser,
 };
