@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export async function postCreateUser(data) {
-  console.log(data);
-  const promise = axios
+  const axiosResponse = axios
     .post('/api/createUser', data)
     .then(function (response) {
       return response.data;
@@ -10,5 +9,19 @@ export async function postCreateUser(data) {
     .catch(function (error) {
       return error;
     });
-  return promise;
+  return axiosResponse;
+}
+
+export async function postLoginUser(data) {
+  const axiosResponse = axios
+    .post('/api/login', data)
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+
+  return axiosResponse;
 }

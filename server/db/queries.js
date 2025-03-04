@@ -20,10 +20,17 @@ async function createUser(data) {
   );
 }
 
-async function getPasswordAndSalt(email) {}
+async function getPasswordAndSalt(email) {
+  const { rows } = await pool.query(
+    `SELECT passwordhash, salt FROM users WHERE email = $1`,
+    [email],
+  );
+  return rows;
+}
 
 module.exports = {
   getAllPosts,
   doesEmailExist,
   createUser,
+  getPasswordAndSalt,
 };

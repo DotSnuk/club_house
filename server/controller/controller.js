@@ -34,6 +34,16 @@ const createUser = [
   },
 ];
 
+const loginUser = [
+  async (req, res, next) => {
+    const { email, password } = req.body;
+    const response = await passwordUtil.comparePassword(email, password);
+    console.log(response);
+    return res.send(response);
+  },
+];
+
 module.exports = {
   createUser,
+  loginUser,
 };
