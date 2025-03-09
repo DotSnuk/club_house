@@ -28,9 +28,23 @@ async function getPasswordAndSalt(email) {
   return rows;
 }
 
+async function getUserByEmail(email) {
+  const { rows } = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+    email,
+  ]);
+  return rows;
+}
+
+async function getUserByID(id) {
+  const { rows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
+  return rows;
+}
+
 module.exports = {
   getAllPosts,
   doesEmailExist,
   createUser,
   getPasswordAndSalt,
+  getUserByEmail,
+  getUserByID,
 };

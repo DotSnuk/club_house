@@ -19,7 +19,8 @@ export default function RegisterForm() {
     const data = { firstname, lastname, email, password, confirmPassword };
     const response = await postCreateUser(data);
     console.log(response);
-    if (!response.success) return handleError(response.errors);
+    if (response.success) return successRegister();
+    handleError(response.errors);
   }
 
   function ErrorCheck(path) {
@@ -31,6 +32,10 @@ export default function RegisterForm() {
     // need a way to remove old errors?
     // or set new each time?
     setErrors(errors);
+  }
+
+  function successRegister() {
+    navigate('/');
   }
 
   return (

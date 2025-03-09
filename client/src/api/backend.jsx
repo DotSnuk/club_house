@@ -13,6 +13,7 @@ export async function postCreateUser(data) {
 }
 
 export async function postLoginUser(data) {
+  console.log(data);
   const axiosResponse = axios
     .post('/api/login', data)
     .then(function (response) {
