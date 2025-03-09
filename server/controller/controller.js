@@ -1,27 +1,7 @@
 const { validationResult } = require('express-validator');
 const db = require('../db/queries');
 const validator = require('./validatior');
-const passwordUtil = require('../utils/password');
-const session = require('express-session');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.serializeUser((user, done) => {
-  console.log('serial');
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    console.log('deserial');
-    const rows = await db.getUserByID(id);
-    const user = rows[0];
-
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
 
 const createUser = [
   validator.validateName,
@@ -54,33 +34,14 @@ const createUser = [
   },
 ];
 
-const loginUser = passport.authenticate('local', {
-  successRedirect: '/success',
-  successMessage: 'success',
-  failureRedirect: '/failed',
-  failureMessage: 'failed',
-});
-
-const successLogin = (req, res) => {
-  return res.send({ success: true });
-};
-
-const failedLogin = (req, res) => {
-  return res.send({ success: false, msg: 'failed login' });
-};
-
-// const loginUser = [
-//   async (req, res, next) => {
-//     const { email, password } = req.body;
-//     const response = await passwordUtil.comparePassword(email, password);
-//     console.log(response);
-//     return res.send(response);
-//   },
-// ];
+const loginUser = [
+  passport.authenticate('local'),
+  (req, res, next) => {
+    res.status(200).send({ success: true });
+  },
+];
 
 module.exports = {
   createUser,
   loginUser,
-  successLogin,
-  failedLogin,
 };
