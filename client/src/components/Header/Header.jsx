@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { user } = useActiveUser();
-
+  console.log(user);
   return (
     <nav>
-      {user.user === null ? (
+      {user === null ? (
         <>
           <Link to='/register'>Register</Link>
           <Link to='/login'>Login</Link>
         </>
       ) : (
-        <Link to='/username'>Username</Link>
+        <Link to='/username'>{user.firstname}</Link>
       )}
     </nav>
   );

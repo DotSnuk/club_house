@@ -1,3 +1,9 @@
+import { useActiveUser } from '../UserContext/UserContext';
+
 export default function Home() {
-  return <div>Welcome home</div>;
+  const { user, loading } = useActiveUser();
+  console.log(user);
+  console.log(loading);
+  if (loading) return <div>Loading...</div>;
+  return <div>Welcome home {user.firstname}</div>;
 }

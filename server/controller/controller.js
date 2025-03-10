@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const db = require('../db/queries');
 const validator = require('./validatior');
 const passport = require('passport');
+const passwordUtil = require('../utils/password');
 
 const createUser = [
   validator.validateName,
@@ -37,11 +38,30 @@ const createUser = [
 const loginUser = [
   passport.authenticate('local'),
   (req, res, next) => {
-    res.status(200).send({ success: true });
+    res.status(200).send({ success: true, user: req.user });
   },
 ];
+
+const logout = (req, res, next) => {
+  req.logout(err => {
+    console.log('logging out');
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+};
+
+const authStatus = (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.send({ isAuthenticated: true, user: req.user });
+  }
+  return res.send({ isAuthenticated: false });
+};
 
 module.exports = {
   createUser,
   loginUser,
+  logout,
+  authStatus,
 };

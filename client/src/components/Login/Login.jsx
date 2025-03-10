@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import { postLoginUser } from '../../api/backend';
 import { useNavigate } from 'react-router-dom';
+import { useActiveUser } from '../UserContext/UserContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useActiveUser();
 
   async function loginUser(e) {
     e.preventDefault();
     console.log('logging in...');
     const response = await postLoginUser({ email, password });
-    if (response.success) return successLogin();
+    if (response.success) return successLogin(response);
     failedLogin(response.msg);
   }
 
@@ -20,7 +22,9 @@ export default function Login() {
     setError(msg);
   }
 
-  function successLogin() {
+  function successLogin(response) {
+    setUser(response.user);
+    // set activeUser
     navigate('/home');
   }
 

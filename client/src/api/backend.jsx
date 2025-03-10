@@ -18,6 +18,7 @@ export async function postLoginUser(data) {
     .post('/api/login', data)
     .then(function (response) {
       console.log(response.data);
+      console.log(response.data.user);
       return response.data;
     })
     .catch(function (error) {

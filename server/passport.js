@@ -26,10 +26,10 @@ passport.deserializeUser(async (id, done) => {
 
 module.exports = passport => {
   passport.use(
-    new LocalStrategy(customFields, async (username, password, done) => {
+    new LocalStrategy(customFields, async (email, password, done) => {
       console.log('inside local strategy');
       try {
-        const rows = await db.getUserByEmail(username);
+        const rows = await db.getUserByEmail(email);
         const user = rows[0];
         console.log('starting authenication');
 
@@ -38,7 +38,7 @@ module.exports = passport => {
           return done(null, false, { message: 'Incorrect username' });
         }
         const passwordMatch = await passwordUtil.comparePassword(
-          username,
+          email,
           password,
         );
         console.log(passwordMatch);
