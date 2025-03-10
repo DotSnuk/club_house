@@ -31,9 +31,11 @@ export function UserContext({ children }) {
   }, []);
 
   const logout = async () => {
+    console.log('inside logout');
     try {
+      console.log('logging out');
       setLoading(true);
-      await axios.get('/api/auth/logout', { withCredentials: true });
+      await axios.post('/api/logout', { withCredentials: true });
       setUser(null);
     } catch (err) {
       setError(err.message);
@@ -43,8 +45,14 @@ export function UserContext({ children }) {
     }
   };
 
+  const isAuthenticated = () => {
+    return !!user;
+  };
+
   return (
-    <ActiveUser.Provider value={{ user, setUser, logout, loading }}>
+    <ActiveUser.Provider
+      value={{ user, setUser, logout, loading, isAuthenticated }}
+    >
       {children}
     </ActiveUser.Provider>
   );
