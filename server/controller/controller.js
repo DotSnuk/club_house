@@ -59,9 +59,15 @@ const authStatus = (req, res) => {
   return res.send({ isAuthenticated: false });
 };
 
+const getForums = async (req, res) => {
+  const data = await db.getForums();
+  return res.status(200).send(data);
+};
+
 module.exports = {
   createUser,
   loginUser,
   logout,
   authStatus,
+  getForums,
 };

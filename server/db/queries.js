@@ -40,6 +40,11 @@ async function getUserByID(id) {
   return rows;
 }
 
+async function getForums() {
+  const { rows } = await pool.query(`SELECT * FROM forum`);
+  return rows;
+}
+
 module.exports = {
   getAllPosts,
   doesEmailExist,
@@ -47,4 +52,5 @@ module.exports = {
   getPasswordAndSalt,
   getUserByEmail,
   getUserByID,
+  getForums,
 };

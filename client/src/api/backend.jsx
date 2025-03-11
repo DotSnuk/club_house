@@ -27,3 +27,15 @@ export async function postLoginUser(data) {
 
   return axiosResponse;
 }
+
+export async function getForums() {
+  const axiosResponse = axios
+    .get('/api/getForums')
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  return axiosResponse;
+}
