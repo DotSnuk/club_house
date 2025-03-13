@@ -64,10 +64,33 @@ const getForums = async (req, res) => {
   return res.status(200).send(data);
 };
 
+const getForumWithId = async (req, res) => {
+  const { id } = req.params;
+  const data = await db.getForumWithId(id);
+  if (data.length === 1) {
+    return res.status(200).send(data[0]);
+  }
+  return res.status(401).send('not found');
+};
+
+const getPosts = async (req, res) => {
+  const { id } = req.params;
+  const data = await db.getPosts(id);
+  return res.status(200).send(data);
+};
+
+const postPost = async (req, res) => {
+  const response = await db.postPost(req.body);
+  console.log(response);
+};
+
 module.exports = {
   createUser,
   loginUser,
   logout,
   authStatus,
   getForums,
+  getForumWithId,
+  getPosts,
+  postPost,
 };

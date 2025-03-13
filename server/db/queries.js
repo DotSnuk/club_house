@@ -45,6 +45,26 @@ async function getForums() {
   return rows;
 }
 
+async function getForumWithId(id) {
+  const { rows } = await pool.query(`SELECT * FROM forum WHERE id = $1`, [id]);
+  return rows;
+}
+
+async function getPosts(id) {
+  const { rows } = await pool.query(`SELECT * FROM posts WHERE forum_id = $1`, [
+    id,
+  ]);
+  return rows;
+}
+
+async function postPost(data) {
+  const { title, text, userId, forumId } = data;
+  await pool.query(
+    `INSERT INTO posts (user_id, forum_id, title, content, date_time) VALUES ($1, $2, $3, $4, NOW())`,
+    [userId, forumId, title, text],
+  );
+}
+
 module.exports = {
   getAllPosts,
   doesEmailExist,
@@ -53,4 +73,7 @@ module.exports = {
   getUserByEmail,
   getUserByID,
   getForums,
+  getForumWithId,
+  getPosts,
+  postPost,
 };

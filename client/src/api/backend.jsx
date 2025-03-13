@@ -39,3 +39,39 @@ export async function getForums() {
     });
   return axiosResponse;
 }
+
+export async function getForumWithId(id) {
+  const axiosResponse = axios
+    .get(`/api/getForumWithId/${id}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  return axiosResponse;
+}
+
+export async function getPosts(id) {
+  const axiosResponse = axios
+    .get(`/api/getPosts/${id}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  return axiosResponse;
+}
+
+export async function postPost(data) {
+  const axiosResonse = axios
+    .post(`/api/postPost`, data)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  return axiosResonse;
+}
