@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getForumWithId, getPosts } from '../../api/backend';
 import NewPost from './NewPost/NewPost';
 import styles from './PostsContainer.module.css';
+import { useActiveUser } from '../UserContext/UserContext';
 
 export default function PostsContainer() {
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,7 @@ export default function PostsContainer() {
   const [title, setTitle] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useActiveUser();
 
   useEffect(() => {
     if (!id) navigate('/forum');
@@ -44,9 +46,29 @@ export default function PostsContainer() {
           <i>No posts yet...</i>
         </div>
       ) : (
-        posts.map(post => <div key={post.id}>{post.content}</div>)
+        posts.map(post => (
+          <div key={post.id}>
+            {post.content}time: {convertTime(post.date_time)}
+            {user !== null && getName(post)}
+          </div>
+        ))
       )}
       <NewPost forumId={id} />
     </>
   );
+}
+
+function getName(user) {
+  return <div>Posted by: {user.user_firstname}</div>;
+}
+
+function convertTime(time) {
+  const newDate = new Date(time);
+  const [month, day, hour, minute] = [
+    newDate.getMonth(),
+    newDate.getDate(),
+    newDate.getHours(),
+    newDate.getMinutes(),
+  ];
+  return `${month + 1}/${day} - ${hour}:${minute}`;
 }

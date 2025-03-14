@@ -51,9 +51,10 @@ async function getForumWithId(id) {
 }
 
 async function getPosts(id) {
-  const { rows } = await pool.query(`SELECT * FROM posts WHERE forum_id = $1`, [
-    id,
-  ]);
+  const { rows } = await pool.query(
+    `SELECT p.*, u.firstname AS user_firstname FROM posts p JOIN users u ON p.user_id = u.id WHERE forum_id = $1`,
+    [id],
+  );
   return rows;
 }
 
